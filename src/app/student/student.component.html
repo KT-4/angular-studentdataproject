@@ -4,6 +4,11 @@
             <div class="card-header text-center text-light bg-success m-0 p-0">
                 <h1>Students</h1>
             </div>
+            <div>
+              <button type="button" class="btn  btn-sm btn-primary w-100"  data-bs-toggle="modal" data-bs-target="#exampleModal3">
+                Create New Student
+            </button>
+            </div>
             <div class="card-body p-0">
                 <table class="table table-success table-striped p-0">
                     <thead>
@@ -16,21 +21,19 @@
                         </tr>
                     </thead>
                     <tbody class="p-0">
-                        <tr>
-                            <td scope="col">Name</td>
-                            <td scope="col">Roll</td>
-                            <td scope="col"><button  type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <tr *ngFor="let student of students">
+                            <td scope="col">{{student.name}}</td>
+                            <td scope="col">{{student.roll}}</td>
+                            <td scope="col"><button  type="button" (click)="viewStudent(student._id)" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Detials
                             </button></td>
-                            <td scope="col"><button type="button" class="btn  btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                            <td scope="col"><button type="button" class="btn  btn-sm btn-outline-success"  data-bs-toggle="modal" data-bs-target="#exampleModal2">
                                 Edit
                             </button></td>
                             <td scope="col"><button type="button" class="btn  btn-sm btn-outline-danger">
                                 Delete
                             </button></td>
-                            <td scope="col"><button type="button" class="btn  btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal3">
-                              Create New Student
-                          </button></td>
+                            
                             
                         </tr>
                     </tbody>
@@ -41,7 +44,8 @@
 </div>
 
 
-<!-- 
+  <!-- Show employee details    -->
+
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -52,41 +56,152 @@
         <div class="modal-body">
           <form>  
            <table class="table table-striped" >
+            <tbody>
                <tr>
-                    <td colspan="2"><strong>Name:</strong></td>
+                    <td colspan="2"><strong>Name : </strong>{{ Onestudent.name}}</td>
                </tr>
                <tr>
-                <td colspan="2"><strong>RollNo:</strong></td>
+                <td colspan="2"><strong>RollNo : </strong>{{ Onestudent.roll}}</td>
                </tr>
                <tr>
                  <td><strong>Subject</strong></td>
-                 <td><strong>Marks</strong></td>
+                 <td class="test-left"><strong>Marks</strong></td>
                </tr>
-           
-               <tr>
-                <td>RDBMS</td>
-                <td>60</td>
-              </tr>
-              <tr>
-                <td>C</td>
-                <td>56</td>
-              </tr>
-              <tr>
-                <td>DAA</td>
-                <td>68</td>
-              </tr>
-              <tr>
-                <td>C++</td>
-                <td>64</td>
-              </tr>
+
+                <tr>
+                  <td>
+                    <ul *ngFor="let sub of Onestudent.subject;">
+                      <li>{{sub.subject}}</li>   
+                    </ul>
+                  </td>
+                  <td>
+                    <ul  *ngFor="let mrk of Onestudent.marks">
+                      <li>{{mrk.marks}}</li>   
+                    </ul>
+                  </td>
+                </tr>
+        
+            </tbody>
            </table>
         </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-primary">Save</button>
         </div>
       </div>
     </div>
   </div>
-   -->
+  
+
+
+
+
+
+
+   <!-- Create New student  -->
+
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel3">Create Student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         <form>
+             <table>
+                <tr>
+                  <td>Name:-<input formControlName="name" type="text" id="name" class="form-control"/></td>
+                </tr>
+                <tr>
+                  <td>RollNo:<input formControlName="roll" type="text" id="roll" class="form-control" /></td>
+                </tr>
+                <tr>
+                  <td>Subject:</td>
+                  <td>Marks</td>
+                </tr>
+                <tr>
+                  <td><input  type="text" id="subject" class="form-control" placeholder="Enter Subject:"/></td>
+                  <td><input  type="number" id="marks" class="form-control" placeholder="Enter Marks:"/></td>
+                </tr>
+                <tr>
+                  <td><input  type="text" id="subject" class="form-control" placeholder="Enter Subject:"/></td>
+                  <td><input  type="number" id="marks" class="form-control" placeholder="Enter Marks:"/></td>
+                </tr>
+                <tr>
+                  <td><input  type="text" id="subject" class="form-control" placeholder="Enter Subject:"/></td>
+                  <td><input  type="number" id="marks" class="form-control" placeholder="Enter Marks:"/></td>
+                </tr>
+                <tr>
+                  <td><input  type="text" id="subject" class="form-control" placeholder="Enter Subject:"/></td>
+                  <td><input  type="number" id="marks" class="form-control" placeholder="Enter Marks:"/></td>
+                </tr>
+             </table>   
+         </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- <p>edit works!</p> -->
+<!-- 
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel2">Edit Student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         <form [formGroup]="editData">
+             <table>
+                <tr>
+                  <td>Name:-<input formControlName="name" type="text" id="snameedit" class="form-control"/></td>
+                </tr>
+                <tr>
+                  <td>RollNo:<input formControlName="roll" type="text" id="RollNo" class="form-control" /></td>
+                </tr>
+                <tr>
+                  <td>Subject:</td>
+                  <td>Marks</td>
+                </tr>
+                <tr>
+                  <td><input formControlName="RdbmsSubject" type="text" id="name" class="form-control" placeholder="RDBMS"/></td>
+                  <td><input formControlName="RdbmsMarks" type="number" id="name" class="form-control" placeholder="67"/></td>
+                </tr>
+                <tr>
+                  <td><input formControlName="RdbmsSubject" type="text" id="name" class="form-control" placeholder="c"/></td>
+                  <td><input formControlName="RdbmsMarks" type="number" id="name" class="form-control" placeholder="63"/></td>
+                </tr>
+                <tr>
+                  <td><input formControlName="RdbmsSubject" type="text" id="name" class="form-control" placeholder="DAA"/></td>
+                  <td><input formControlName="RdbmsMarks" type="number" id="name" class="form-control" placeholder="69"/></td>
+                </tr>
+                <tr>
+                  <td><input formControlName="RdbmsSubject" type="text" id="name" class="form-control" placeholder="C++"/></td>
+                  <td><input formControlName="RdbmsMarks" type="number" id="name" class="form-control" placeholder="64"/></td>
+                </tr>
+             </table>   
+         </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Edit</button>
+      </div>
+    </div>
+  </div>
+</div>
+ -->
+
+
+

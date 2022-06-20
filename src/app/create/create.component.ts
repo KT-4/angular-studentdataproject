@@ -11,12 +11,7 @@ export class CreateComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      name:new FormControl(''),
-      roll:new FormControl(''),
-      subject:new FormControl(''),
-      mark:new FormControl('')
-    })
+   
   }
 
 }

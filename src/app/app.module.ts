@@ -8,6 +8,8 @@ import { StudentComponent } from './student/student.component';
 import { CreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
 import { ViewComponent } from './view/view.component';
+import { HttpClientModule } from '@angular/common/http';
+import { SubjectComponent } from './subject/subject.component';
 
 @NgModule({
   declarations: [
@@ -15,13 +17,15 @@ import { ViewComponent } from './view/view.component';
     StudentComponent,
     CreateComponent,
     EditComponent,
-    ViewComponent
+    ViewComponent,
+    SubjectComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

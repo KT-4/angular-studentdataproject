@@ -9,12 +9,12 @@ export class StudentService {
 
   constructor(private http:HttpClient) { }
 
-  createNewStudent(studentData:string){
+  createNewStudent(studentData:any){
     return this.http.post(`${environment.apiUrl}/student`,studentData)
   }
 
   getStudent(){
-     return this.http.get(`${environment.apiUrl}`)
+     return this.http.get(`${environment.apiUrl}/student`)
   }
 
   getStudentById(id:string){
