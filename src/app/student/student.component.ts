@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup} from '@angular/forms';
+import { FormControl, FormGroup, Validators} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StudentService } from '../services/student.service';
 
@@ -11,45 +11,48 @@ import { StudentService } from '../services/student.service';
   styleUrls: ['./student.component.css']
 })
 export class StudentComponent implements OnInit {
-  students:any
+  students:any = []
   Onestudent:any
-  form!:FormGroup
-  editData!:FormGroup
-   id:any
-  constructor(public studentService:StudentService,private route:ActivatedRoute,private router:Router) { }
-  
-  ngOnInit(): void {
-    
-    // this.form = new FormGroup({
-    //     name:new FormControl(''),
-    //     roll:new FormControl(''),
-    //     subject:new FormControl('')
-    // })
+  dstudent:any 
 
-    this.viewStudent(this.id)
-    this.getStudent()
+  constructor(public studentService:StudentService,private route:ActivatedRoute,private router:Router) { }
+ 
+  ngOnInit(): void {
+    this.studentService.getStudent().subscribe((res:any) => {
+      this.students = res
+   })
   }
 
+  form= new FormGroup({
+    name:new FormControl('',Validators.required),
+    roll:new FormControl('',Validators.required),
+    subject:new FormControl('',Validators.required),
+    marks:new FormControl('',Validators.required)
+  })
    
-  // createStudent(){
-  //   this.studentService.createNewStudent(this.form.value).subscribe((res)=>{
-  //     console.log(res)
-  //   })
-  // }
+  submit(){
+    console.log(this.form.value)
+    this.studentService.createNewStudent(this.form.value).subscribe((res)=>{
+      console.log(res)
+      alert('studnet added')
+    })
+    
+  }
 
 
     getStudent(){
-      this.studentService.getStudent().subscribe((res) => {
-        this.students = res
-        console.log(res)
-     })
+     
     }
 
     viewStudent(ids:any){
-      this.id = ids
-      console.log()
-      this.studentService.getStudentById(this.id).subscribe((data:any)=>{
+      this.studentService.getStudentById(ids).subscribe((data:any)=>{
         this.Onestudent = data
+      })
+    }
+
+    deleteStudent(iddelete:any){
+      this.studentService.deleteStudentById(iddelete).subscribe((deletedata:any)=>{
+        this.dstudent = deletedata
       })
     }
 
