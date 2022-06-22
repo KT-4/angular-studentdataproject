@@ -5,7 +5,7 @@
                 <h1>Students</h1>
             </div>
             <div>
-              <button type="button" class="btn  btn-sm btn-primary w-100"  data-bs-toggle="modal" data-bs-target="#exampleModal3">
+              <button type="button" class="btn  btn-sm btn-primary w-100" (click)="students" data-bs-toggle="modal" data-bs-target="#exampleModal3">
                 Create New Student
             </button>
             </div>
@@ -19,20 +19,19 @@
                       <td scope="col"><strong>Delete</strong></td>
                   </tr>
               </thead>
-              <tbody class="p-0">
+              <tbody>
                   <tr *ngFor="let student of students">
                       <td scope="col"> {{ student.name }}</td>
                       <td scope="col">{{ student.roll }}</td>
-                      <td scope="col"><button  type="button" (click)="viewStudent(student._id)" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                      <td scope="col"><button  type="button" (click)="viewStudent(student._id)" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                           Detials
                       </button></td>
                       <td scope="col"><button type="button" class="btn  btn-sm btn-outline-success"  data-bs-toggle="modal" data-bs-target="#exampleModal2">
                           Edit
                       </button></td>
-                      <td scope="col"><button type="button" (click)="deleteStudent(students._id)" class="btn  btn-sm btn-outline-danger">
-                          Delete
-                      </button></td>
-                      
+                      <td scope="col"><button type="button"  class="btn  btn-sm btn-outline-danger" (click)="deleteStudent(student._id)">
+                        Delete
+                    </button></td>
                       
                   </tr>
               </tbody>
@@ -43,12 +42,12 @@
 
 <!-- Show employee details    -->
 
-<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Student Details</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form>  
@@ -107,7 +106,7 @@
     </div>
     <div class="modal-body">
        <div class="myForm">
-        <form [formGroup]="form" (ngSubmit)="submit()">
+        <form [formGroup]="form">
         <div class="col-md-12">
           <label for="">Name:-</label>
           <input name="name" formControlName="name" type="text" id="name" class="form-control"/>
@@ -117,17 +116,17 @@
           <input name="roll" formControlName="roll" type="text" id="roll" class="form-control" />
         </div>
         <br>
-        <div>
+        <!-- <div>
           <input name="subject" formControlName="subject" type="text" id="subject" class="form-control" />
           <input name="marks" formControlName="marks" type="number" id="marks" class="form-control" />
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        </div> -->
+        
        </form>
        </div>
 
     </div>
     <div class="modal-footer">
-      
+      <button type="submit" class="btn btn-primary" (click)="submit()">Submit</button>
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
     
     </div>
@@ -143,7 +142,7 @@
 
 
 <!-- <p>edit works!</p> -->
-<!-- 
+
 <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
 <div class="modal-dialog">
   <div class="modal-content">
@@ -152,7 +151,7 @@
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-       <form [formGroup]="editData">
+       <form>
            <table>
               <tr>
                 <td>Name:-<input formControlName="name" type="text" id="snameedit" class="form-control"/></td>
@@ -190,7 +189,7 @@
   </div>
 </div>
 </div>
--->
+
 
 </div>
 
