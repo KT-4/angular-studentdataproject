@@ -9,6 +9,7 @@ import { StudentComponent } from './student/student.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SubjectComponent } from './subject/subject.component';
 import { ViewdataComponent } from './viewdata/viewdata.component';
+import { StudentService } from './services/student.service';
 
 
 @NgModule({
@@ -26,7 +27,9 @@ import { ViewdataComponent } from './viewdata/viewdata.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    StudentService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

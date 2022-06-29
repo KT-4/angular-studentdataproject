@@ -18,15 +18,15 @@ export class StudentService {
   }
 
   getStudentById(id:string){
-    return this.http.get<any>(`${environment.apiUrl}/student/${id}`)
+    return this.http.get(`${environment.apiUrl}/student/${id}`)
   }
 
   updateStudentById(id:string,studentData:any){
-    return this.http.patch<any>(`${environment.apiUrl}/student/${id}`,studentData)
+    return this.http.patch(`${environment.apiUrl}/student/${id}`,studentData)
   }
 
   deleteStudentById(id:string){
-    return this.http.delete<any>(`${environment.apiUrl}/student/${id}`)
+    return this.http.delete(`${environment.apiUrl}/student/${id}`)
   }
 
 }

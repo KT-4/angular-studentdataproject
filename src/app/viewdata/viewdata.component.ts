@@ -6,8 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./viewdata.component.css']
 })
 export class ViewdataComponent implements OnInit {
-
+  students:any = []
+  Onestudent:any
   constructor() { }
+
+
+  viewStudent(){
+     this.Onestudent
+  }
 
   ngOnInit(): void {
   }

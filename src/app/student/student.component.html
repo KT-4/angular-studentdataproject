@@ -1,50 +1,52 @@
 <div class="container">
     <div class="row">
-        <div class="card p-0">
+        <div class="col-md-12">
+
             <div class="card-header text-center text-light bg-success m-0 p-0">
                 <h1>Students</h1>
             </div>
-            <div>
-              <button type="button" class="btn  btn-sm btn-primary w-100" (click)="students" data-bs-toggle="modal" data-bs-target="#exampleModal3">
+            
+            <button type="button" (click)="students" class="btn  btn-sm btn-primary w-100"  data-bs-toggle="modal" data-bs-target="#exampleModal3">
                 Create New Student
             </button>
+            
+            <div>
+              <table class="table table-success table-striped p-0">
+                <thead>
+                    <tr>
+                        <td><strong>Name</strong></td>
+                        <td><strong>Roll</strong></td>
+                        <td><strong>Details</strong></td>
+                        <td><strong>Edit</strong></td>
+                        <td><strong>Delete</strong></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let student of students">
+                        <td> {{ student.name }}</td>
+                        <td>{{ student.roll }}</td>
+  
+                        <td><a  type="button" (click)="viewStudent(student._id)" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                         Detials
+                        </a></td>
+                        <td ><a type="button" (click)="editStudent(student._id)" class="btn  btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal2" >
+                            Edit
+                        </a></td>
+                        <td><a type="button"  class="btn  btn-sm btn-outline-danger" (click)="deleteStudent(student._id)">
+                          Delete
+                        </a></td>
+                        
+                    </tr>
+                </tbody>
+              </table>
             </div>
-            <table class="table table-success table-striped p-0">
-              <thead>
-                  <tr>
-                      <td scope="col"><strong>Name</strong></td>
-                      <td scope="col"><strong>Roll</strong></td>
-                      <td scope="col"><strong>Details</strong></td>
-                      <td scope="col"><strong>Edit</strong></td>
-                      <td scope="col"><strong>Delete</strong></td>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr *ngFor="let student of students">
-                      <td scope="col"> {{ student.name }}</td>
-                      <td scope="col">{{ student.roll }}</td>
-
-                      <td scope="col"><button  type="button" (click)="addData(student._id)" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal4">
-                        AddMarksheet
-                    </button></td>
-                      <td scope="col"><button  type="button" (click)="viewStudent(student._id)" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                          Detials
-                      </button></td>
-                      <td scope="col"><button type="button" class="btn  btn-sm btn-outline-success"  data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                          Edit
-                      </button></td>
-                      <td scope="col"><button type="button"  class="btn  btn-sm btn-outline-danger" (click)="deleteStudent(student._id)">
-                        Delete
-                    </button></td>
-                      
-                  </tr>
-              </tbody>
-          </table>
+          
         </div>
     </div>
- 
+  </div>
 
 <!-- Show employee details    -->
+<!-- <app-viewdata></app-viewdata> -->
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -76,7 +78,7 @@
                 </td>
                 <td>
                   <ul  *ngFor="let mrk of Onestudent.marks">
-                    <li>{{mrk.marks}}</li>   
+                    <li>{{mrk.mark}}</li>   
                   </ul>
                 </td>
               </tr>
@@ -92,8 +94,6 @@
     </div>
   </div>
 </div>
-
-
 
 
 
@@ -117,18 +117,32 @@
         </div>
         <div>
           <label for="">RollNo:</label>
-          <input name="roll" formControlName="roll" type="text" id="roll" class="form-control" />
+          <input name="roll" formControlName="roll" type="text" id="roll" class="form-control"/>
         </div>
-        <table>
-            <tbody>
-              <!-- <td>
-                <ul *ngFor="let sub of Onestudent.subject;">
-                  <li>{{sub.subject}}</li>   
-                </ul>
-              </td> -->
-            </tbody>
+       
+        
+        <div>
+          <button type="button" (click)="onAddStuAndMark()" class="btn btn-sm btn-warning my-2 w-100">Add</button>
+        </div>
 
-        </table>
+        <div class="row"> 
+
+          <div class="col-md-6" formArrayName="subject" >
+            <div *ngFor="let data of SubControls; let i = index">
+              <label for="">Subject</label>
+              <input name="subject" [formControlName]="i" type="text" id="subject" class="form-control" />
+            </div>
+          </div>
+          
+          <div class="col-md-6" formArrayName="marks">
+            <div  *ngFor="let data of markControls; let i = index">
+              <label for="">Marks</label>
+              <input name="marks" [formControlName]="i" type="number" id="marks" class="form-control" />
+            </div>
+          </div>
+
+        </div>
+       
         
        </form>
        </div>
@@ -148,63 +162,6 @@
 <!-- Button trigger modal -->
 
 
-<!-- Modal -->
- <div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-           <div class="row">
-              <form [formGroup]="subform" (ngSubmit)="subStudent()">
-                 <table>
-                     <tbody>
-                      <tr>
-                        <td colspan="2"><strong>Name : </strong>{{Addstudent.name}}</td>
-                   </tr>
-                    <tr>
-                    <td colspan="2"><strong>RollNo : </strong>{{Addstudent.roll}}</td>
-                    </tr>
-                    <tr>
-                       <td><input type="text" formControlName="subject" class="form-control" placeholder="Enter Subject:-"></td>
-                       <td><input type="number" formControlName="marks" class="form-control" placeholder="Enter Marks:-"></td>
-                    </tr>
-                    <br>
-                    <tr>
-                      <td><input type="text" formControlName="subject" class="form-control" placeholder="Enter Subject:-"></td>
-                      <td><input type="number" formControlName="marks" class="form-control" placeholder="Enter Marks:-"></td>
-                   </tr>
-                   <br>
-                   <tr>
-                    <td><input type="text" formControlName="subject" class="form-control" placeholder="Enter Subject:-"></td>
-                    <td><input type="number" formControlName="marks" class="form-control" placeholder="Enter Marks:-"></td>
-                 </tr>
-                 <br>
-                 <tr>
-                  <td><input type="text" formControlName="subject" class="form-control" placeholder="Enter Subject:-"></td>
-                  <td><input type="number" formControlName="marks" class="form-control" placeholder="Enter Marks:-"></td>
-               </tr>
-                     </tbody>
-                 </table>
-                 <button type="submit" class="btn btn-primary">Save changes</button>
-              </form>
-                    
-                
-           </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        
-      </div>
-    </div>
-  </div>
-</div> 
 
 
 
@@ -274,54 +231,67 @@
 <!-- <p>edit works!</p> -->
 
  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-<div class="modal-dialog">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel2">Edit Student</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    </div>
-    <div class="modal-body">
-       <form [formGroup]="editForm" (ngSubmit)="edit">
-           <table>
-              <tr>
-                <td>Name:-<input formControlName="name" type="text" id="snameedit" class="form-control" [(ngModel)]="students.name"/></td>
-              </tr>
-              <tr>
-                <td>RollNo:<input formControlName="roll" type="text" id="RollNo" class="form-control"  [(ngModel)]="students.roll"/></td>
-              </tr>
-              <tr>
-                <td>Subject:</td>
-                <td>Marks</td>
-              </tr>
-              <!-- <tr>
-                <td><input formControlName="RdbmsSubject" type="text"  class="form-control" placeholder="RDBMS" /></td>
-                <td><input formControlName="RdbmsMarks" type="number"  class="form-control" placeholder="67"/></td>
-              </tr>
-              <tr>
-                <td><input formControlName="RdbmsSubject" type="text"  class="form-control" placeholder="c"/></td>
-                <td><input formControlName="RdbmsMarks" type="number"  class="form-control" placeholder="63"/></td>
-              </tr>
-              <tr>
-                <td><input formControlName="RdbmsSubject" type="text"  class="form-control" placeholder="DAA"/></td>
-                <td><input formControlName="RdbmsMarks" type="number"  class="form-control" placeholder="69"/></td>
-              </tr>
-              <tr>
-                <td><input formControlName="RdbmsSubject" type="text"  class="form-control" placeholder="C++"/></td>
-                <td><input formControlName="RdbmsMarks" type="number"  class="form-control" placeholder="64"/></td>
-              </tr> -->
-           </table>   
-       </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      <button type="edit" class="btn btn-primary">Edit</button>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel2">Update Student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         <div class="myForm">
+          <form [formGroup]="editForm">
+          <div class="col-md-12">
+             <div>
+               <label for="">Name:-</label>
+              <input name="name" formControlName="name" type="text" id="name" class="form-control" [(ngModel)]="editStudentd.name"/>
+             </div>
+          
+             <div>
+               <label for="">RollNo:</label>
+              <input name="roll" formControlName="roll" type="text" id="roll" class="form-control" [(ngModel)]="editStudentd.roll"/>
+             </div>
+        </div>
+          
+            <div>
+            <button type="button" (click)="edditAadd()" class="btn btn-sm btn-warning my-2 w-100">Edit</button>
+          </div>  
+  
+          <div class="row"> 
+  
+            <div class="col-md-6" formArrayName="subject" >
+              <div *ngFor="let sub of editStudentd.subject;let i = index">
+                <label for="">Subject{{sub|json}}</label>
+                <input  name="sub.subject" [formControlName]="i" type="text"  id="subject" class="form-control" [(ngModel)]="sub.subject"/>
+              </div>
+            </div>
+            
+            <div class="col-md-6" formArrayName="marks">
+              <div  *ngFor="let mrk of editStudentd.marks; let i = index">
+                <label for="">Marks{{mrk|json}}</label>
+                <input  name="mrk.mark" [formControlName]="i" type="number"  id="marks" class="form-control" [(ngModel)]="mrk.mark"/>
+              </div>
+            </div>
+  
+            
+          </div>
+         
+          
+         </form>
+         </div>
+  
+      </div>
+      <div class="modal-footer">
+        <button type="edit" class="btn btn-primary" (click)="edit()">Update</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      
+      </div>
     </div>
   </div>
-</div>
-</div> 
+  </div> 
+  
 
 
-</div>
+
 
 
   
