@@ -119,7 +119,28 @@
           <label for="">RollNo:</label>
           <input name="roll" formControlName="roll" type="text" id="roll" class="form-control"/>
         </div>
-       
+        
+        <div class="form-group col-md-12">
+           <select formArrayName="country">
+              <option>Select Country</option>
+              <option *ngFor="let country of countries" [value]="country.id"></option>
+           </select>
+        </div>
+
+        <div class="form-group col-md-12">
+          <select formArrayName="state">
+             <option>Select State</option>
+             <option *ngFor="let state of countries" [value]="state.id"></option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-12">
+          <select formArrayName="city">
+             <option>Select City</option>
+             <option *ngFor="let city of cities" [value]="city.id"></option>
+          </select>
+        </div>
+     
         
         <div>
           <button type="button" (click)="onAddStuAndMark()" class="btn btn-sm btn-warning my-2 w-100">Add</button>

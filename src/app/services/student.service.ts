@@ -2,10 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
+// import { Country, State, City }  from 'country-state-city';
+
+
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class StudentService {
+
+  
 
   constructor(private http:HttpClient) { }
 
@@ -20,6 +27,16 @@ export class StudentService {
   getStudentById(id:string){
     return this.http.get(`${environment.apiUrl}/student/${id}`)
   }
+
+ 
+
+  // getCitiesByState(country:string,state:string){
+  //    return City.getCitiesOfState(country,state)
+  // }
+
+  // getstateByCountry(countryName:string){
+  //   return State.getStatesOfCountry(countryName)
+  // }
 
   updateStudentById(id:string,studentData:any){
     return this.http.patch(`${environment.apiUrl}/student/${id}`,studentData)

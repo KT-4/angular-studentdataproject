@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-
-
+import { CountrystateService } from '../services/countrystate.service';
+// import { Country, State, City }  from 'country-state-city';
 import { StudentService } from '../services/student.service';
 
 @Component({
@@ -15,18 +15,37 @@ export class StudentComponent implements OnInit{
   public Addstudent:any
   public editStudentd:any
   public id:any
+
+  
+  // public countries:any = []
   form!:FormGroup
   editForm!:FormGroup
 
-  constructor(private studentService:StudentService,private fb:FormBuilder) {}
+   countries:any;
+   states:any;
+   cities:any;
+
+  constructor(private studentService:StudentService,private countryservice:CountrystateService,private fb:FormBuilder) {}
 
    ngOnInit(): void{
+
+    this.countryservice.getCountries().subscribe(
+      data => this.countries = data
+    )
     
     this.form = new FormGroup({
       name:new FormControl('',Validators.required),
       roll:new FormControl('',Validators.required),
+      country:new FormControl(''),
+      state:new FormControl(''),
+      city:new FormControl(''),
+     
       subject:new FormArray([]),
-      marks: new FormArray([])
+      marks: new FormArray([]),
+
+
+      
+
       
     })
   
@@ -39,7 +58,8 @@ export class StudentComponent implements OnInit{
 
     this.getStudnets()
    
-
+    
+   
     
   }
 
@@ -68,7 +88,30 @@ deleteStudent(idDelete:any){
 
 // add new studnet
 
+//get countries
+ onChangeCountry(countryId:number){
+    if(countryId){
+       this.countryservice.getStatus(countryId).subscribe(
+          data => {
+            this.states = data;
+            this.cities = data;
+          }
+       )
+    }else{
+      this.states = null;
+      this.cities = null;
+    }
+ }
 
+ onChangeStatus(stateId:number){
+    if(stateId){
+      this.countryservice.getCities(stateId).subscribe(
+        data => this.cities = data
+      )
+    }else{
+      this.cities = null;
+    }
+ }
 
 onAddStuAndMark(){
    var scontrol = new FormControl(null, [Validators.required]);
