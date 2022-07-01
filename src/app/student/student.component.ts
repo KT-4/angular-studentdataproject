@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
+
 import { StudentService } from '../services/student.service';
 
 @Component({
@@ -29,7 +30,7 @@ export class StudentComponent implements OnInit{
       
     })
   
-    this.editForm = this.fb.group({
+    this.editForm = new FormGroup({
         name:new FormControl('',Validators.required), 
         roll:new FormControl('',Validators.required),
         subject:new FormArray([]),
@@ -37,17 +38,12 @@ export class StudentComponent implements OnInit{
     })
 
     this.getStudnets()
-    console.log("Get All Student")
+   
 
     
   }
 
-  // patchValue(ids){
-  //   this.editForm.patchValue({
-  //     this.ids
-  //     this.editStudent.subject
-  //   })
-  // }
+
 
 // get all student
 getStudnets(){
@@ -63,10 +59,10 @@ viewStudent(ids:any){
   })
 }
 
-// delete sutdent
+
 deleteStudent(idDelete:any){
   this.studentService.deleteStudentById(idDelete).subscribe((res)=>{
-      // this.getStudnets()
+      this.getStudnets()
   })
 }
 
@@ -75,48 +71,72 @@ deleteStudent(idDelete:any){
 
 
 onAddStuAndMark(){
-  var scontrol = new FormControl(null, [Validators.required]);
-  var mcontrol = new FormControl(null, [Validators.required]);
+   var scontrol = new FormControl(null, [Validators.required]);
+   var mcontrol = new FormControl(null, [Validators.required]);
   
-  (<FormArray>this.form.get('subject')).push(scontrol);
-  (<FormArray>this.form.get('marks')).push(mcontrol)
-}
+   (<FormArray>this.form.get('subject')).push(scontrol);
+   (<FormArray>this.form.get('marks')).push(mcontrol)
+ }
 
-get SubControls(){
-  return (<FormArray>this.form.get('subject')).controls
+
+
+ get SubControls(){
+
+   return (<FormArray>this.form.get('subject')).controls
   
 }
 get markControls(){
+  
   return (<FormArray>this.form.get('marks')).controls
 }
+
+
+
+
 
 submit(){
   this.studentService.createNewStudent(this.form.value).subscribe(res=>{
   })
+  this.getStudnets()
+
   alert('Student Added')
   this.form.reset()
 }
 
 // edit sutdent
 
-edditAadd(){
-  var escontrol = new FormControl(null, [Validators.required]);
-  var emcontrol = new FormControl(null, [Validators.required]);
-
-  // (<FormArray>this.editForm.get('subject')).push(escontrol);
-  // (<FormArray>this.editForm.get('marks')).push(emcontrol)
-}
-
  editStudent(idu:any){
   this.id = idu
   this.studentService.getStudentById(idu).subscribe((data)=>{
   this.editStudentd = data
-   
   })
  }
 
+
+ get eSubControls(){
+  return (<FormArray>this.editForm.get('subject')).controls
+ 
+}
+get emarkControls(){
+ return (<FormArray>this.editForm.get('marks')).controls
+}
+
+ edditAadd(){
+  
+  var escontrol = new FormControl(null, [Validators.required]);
+  var emcontrol = new FormControl(null, [Validators.required]);
+
+  (<FormArray>this.editForm.get('subject')).push(escontrol);
+  (<FormArray>this.editForm.get('marks')).push(emcontrol)
+}
+
+setValue() {
+  this.editForm.setValue({name:this.editStudentd.name , roll:this.editStudentd.roll, subject:this.editStudentd.subject.subject, marks:this.editStudentd.marks.mark });
+}
+
+
  edit(){
-  this.studentService.updateStudentById(this.id,this.editForm.value).subscribe((res)=>{
+  this.studentService.updateStudentById(this.id, this.editForm.value).subscribe((res)=>{
     console.log(res)
     alert(`update successfully`)
   })

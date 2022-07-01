@@ -43,10 +43,10 @@
           
         </div>
     </div>
-  </div>
+</div>
 
 <!-- Show employee details    -->
-<!-- <app-viewdata></app-viewdata> -->
+
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -93,7 +93,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> 
 
 
 
@@ -102,7 +102,7 @@
  <!-- Create New student  -->
 
 <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
-<div class="modal-dialog">
+ <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title" id="exampleModalLabel3">Create Student</h5>
@@ -155,70 +155,15 @@
     </div>
   </div>
 </div>
-</div>
+</div> 
 
-  
 
-<!-- Button trigger modal -->
 
 
 
 
 
   
-
-
- <!-- Add Mark student  -->
- 
- <!-- <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel3">Add Student Marks</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-         <div class="myForm">
-      
-          <div class="col-md-12">
-            <table class="table table-striped" >
-              <tbody>
-                 <tr>
-                      <td colspan="2"><strong>Name : </strong>{{Addstudent.name}}</td>
-                 </tr>
-                 <tr>
-                  <td colspan="2"><strong>RollNo : </strong>{{ Addstudent.roll}}</td>
-                 </tr>
-                 <tr>
-                   <td><strong>Subject</strong></td>
-                   <td class="test-left"><strong>Marks</strong></td>
-                 </tr>
-    
-                  <tr> 
-                     <td>
-                      <ul *ngFor="let sub of Onestudent.subject;">
-                        <li>{{sub.subject}}</li>   
-                      </ul>
-                    </td>
-                   
-                  </tr>
-                   
-              </tbody>
-             </table>
-          </div>        
-         </div>
-  
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      
-      </div>
-    </div>
-  </div>
-  </div> -->
-  
-
 
 
 
@@ -254,21 +199,21 @@
           
             <div>
             <button type="button" (click)="edditAadd()" class="btn btn-sm btn-warning my-2 w-100">Edit</button>
-          </div>  
+          </div>   
   
           <div class="row"> 
-  
+
             <div class="col-md-6" formArrayName="subject" >
-              <div *ngFor="let sub of editStudentd.subject;let i = index">
-                <label for="">Subject{{sub|json}}</label>
-                <input  name="sub.subject" [formControlName]="i" type="text"  id="subject" class="form-control" [(ngModel)]="sub.subject"/>
+              <div *ngFor="let data of eSubControls; let i = index">
+                <label for="">Subject</label>"
+                <input name="subject" [formControlName]="i" type="text" id="subject" class="form-control" [(ngModel)]="editStudentd.subject[i].subject"/>
               </div>
             </div>
             
             <div class="col-md-6" formArrayName="marks">
-              <div  *ngFor="let mrk of editStudentd.marks; let i = index">
-                <label for="">Marks{{mrk|json}}</label>
-                <input  name="mrk.mark" [formControlName]="i" type="number"  id="marks" class="form-control" [(ngModel)]="mrk.mark"/>
+              <div  *ngFor="let data of emarkControls; let i = index">
+                <label for="">Marks</label>
+                <input name="marks" [formControlName]="i" type="number" id="marks" class="form-control" [(ngModel)]="editStudentd.marks[i].mark"/>
               </div>
             </div>
   
@@ -287,7 +232,7 @@
       </div>
     </div>
   </div>
-  </div> 
+  </div>  
   
 
 
