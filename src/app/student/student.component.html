@@ -120,26 +120,29 @@
           <input name="roll" formControlName="roll" type="text" id="roll" class="form-control"/>
         </div>
         
-        <div class="form-group col-md-12">
-           <select formArrayName="country">
-              <option>Select Country</option>
-              <option *ngFor="let country of countries" [value]="country.id"></option>
+        <div>
+          <label>Select Country</label>
+          <select class="form-control" name="country" formControlName="country">
+             <option>Select Country</option>
+             <option *ngFor="let cot of countries;let i = index">{{cot.name}}</option>
+          </select>
+       </div>
+        <div>
+          <label>Select State</label>
+          <select class="form-control" name="state" formControlName="state">
+             <option>Select State</option>
+             <option *ngFor="let state of states;let i = index">{{state.name}}</option>
+          </select>
+       </div>
+        <div>
+           <label>Select City</label>
+           <select class="form-control" name="city" formControlName="city">
+              <option>Select City</option>
+              <option *ngFor="let city of cities;let i = index">{{city.name}}</option>
            </select>
         </div>
 
-        <div class="form-group col-md-12">
-          <select formArrayName="state">
-             <option>Select State</option>
-             <option *ngFor="let state of countries" [value]="state.id"></option>
-          </select>
-        </div>
-
-        <div class="form-group col-md-12">
-          <select formArrayName="city">
-             <option>Select City</option>
-             <option *ngFor="let city of cities" [value]="city.id"></option>
-          </select>
-        </div>
+  
      
         
         <div>

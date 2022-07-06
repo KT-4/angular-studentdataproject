@@ -21,31 +21,21 @@ export class StudentComponent implements OnInit{
   form!:FormGroup
   editForm!:FormGroup
 
-   countries:any;
-   states:any;
-   cities:any;
+   countries:any = [];
+   states:any = [];
+   cities:any = [];
 
   constructor(private studentService:StudentService,private countryservice:CountrystateService,private fb:FormBuilder) {}
 
    ngOnInit(): void{
 
-    this.countryservice.getCountries().subscribe(
-      data => this.countries = data
-    )
     
     this.form = new FormGroup({
       name:new FormControl('',Validators.required),
       roll:new FormControl('',Validators.required),
-      country:new FormControl(''),
-      state:new FormControl(''),
-      city:new FormControl(''),
-     
       subject:new FormArray([]),
       marks: new FormArray([]),
-
-
       
-
       
     })
   
@@ -53,14 +43,14 @@ export class StudentComponent implements OnInit{
         name:new FormControl('',Validators.required), 
         roll:new FormControl('',Validators.required),
         subject:new FormArray([]),
-        marks: new FormArray([])
+        marks: new FormArray([]),
+        country:new FormControl(''),
+        state:new FormControl('')
     })
 
     this.getStudnets()
-   
-    
-   
-    
+    this.getCountries()
+     
   }
 
 
@@ -71,6 +61,28 @@ getStudnets(){
     this.students = res
   })
 }
+
+getCountries(){
+   this.countryservice.getCountry().subscribe((cres)=>{
+       this.countries = cres
+   })
+}
+
+ onChangeCountry(countryId:String){
+   if(countryId){
+    this.countryservice.getState().subscribe((sres)=>{
+      this.states = sres
+   })
+   }
+    
+    
+ }
+
+ getCities(){
+   this.countryservice.getCity().subscribe((ceres)=>{
+      this.cities = ceres
+   })
+ }
 
 // view Student
 viewStudent(ids:any){
@@ -86,32 +98,6 @@ deleteStudent(idDelete:any){
   })
 }
 
-// add new studnet
-
-//get countries
- onChangeCountry(countryId:number){
-    if(countryId){
-       this.countryservice.getStatus(countryId).subscribe(
-          data => {
-            this.states = data;
-            this.cities = data;
-          }
-       )
-    }else{
-      this.states = null;
-      this.cities = null;
-    }
- }
-
- onChangeStatus(stateId:number){
-    if(stateId){
-      this.countryservice.getCities(stateId).subscribe(
-        data => this.cities = data
-      )
-    }else{
-      this.cities = null;
-    }
- }
 
 onAddStuAndMark(){
    var scontrol = new FormControl(null, [Validators.required]);

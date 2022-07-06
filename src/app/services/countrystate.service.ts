@@ -1,25 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CountrystateService {
 
-  apiBaseUrl = 'http://localhost/dev/tcxapp/';
-
   constructor(private http:HttpClient) { }
+ 
+   getCountry(){
+    return this.http.get(`${environment.apiUrl}/country`)
+   }
 
-  getCountries(){
-    return this.http.get(`${this.apiBaseUrl}api/countries`)
-  }
+   getState(){
+    return this.http.get(`${environment.apiUrl}/state`)
+   }
 
-  getStatus(countryId:number){
-    return this.http.get(`${this.apiBaseUrl}api/states/${countryId}`)
-  }
-
-  getCities(stateId:number){
-    return this.http.get(`${this.apiBaseUrl}api/cities/${stateId}`)
-  }
+   getCity(){
+     return this.http.get(`${environment.apiUrl}/city`)
+   }
+  
 
 }

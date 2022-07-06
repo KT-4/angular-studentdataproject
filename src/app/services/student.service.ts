@@ -28,22 +28,19 @@ export class StudentService {
     return this.http.get(`${environment.apiUrl}/student/${id}`)
   }
 
- 
-
-  // getCitiesByState(country:string,state:string){
-  //    return City.getCitiesOfState(country,state)
-  // }
-
-  // getstateByCountry(countryName:string){
-  //   return State.getStatesOfCountry(countryName)
-  // }
-
   updateStudentById(id:string,studentData:any){
     return this.http.patch(`${environment.apiUrl}/student/${id}`,studentData)
   }
 
   deleteStudentById(id:string){
     return this.http.delete(`${environment.apiUrl}/student/${id}`)
+  }
+
+
+  //countries get student
+
+  getCountry(){
+    return this.http.get(`${environment.apiUrl}/student`)
   }
 
 }
