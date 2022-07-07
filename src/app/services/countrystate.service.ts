@@ -13,12 +13,12 @@ export class CountrystateService {
     return this.http.get(`${environment.apiUrl}/country`)
    }
 
-   getState(){
-    return this.http.get(`${environment.apiUrl}/state`)
+   getState(countryId:String){
+    return this.http.get(`${environment.apiUrl}/state?country_id=${countryId}`)
    }
 
-   getCity(){
-     return this.http.get(`${environment.apiUrl}/city`)
+   getCity(stateId:String){
+     return this.http.get(`${environment.apiUrl}/city?state_id=${stateId}`)
    }
   
 

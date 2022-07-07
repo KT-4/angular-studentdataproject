@@ -10,36 +10,37 @@ import { StudentService } from '../services/student.service';
   styleUrls: ['./student.component.css']
 })
 export class StudentComponent implements OnInit{
-  public students:any = []
+  public students?:any = []
   public Onestudent:any
   public Addstudent:any
   public editStudentd:any
   public id:any
-
-  
-  // public countries:any = []
   form!:FormGroup
   editForm!:FormGroup
-
-   countries:any = [];
-   states:any = [];
-   cities:any = [];
+   countries:any;
+   states:any;
+   cities:any;
 
   constructor(private studentService:StudentService,private countryservice:CountrystateService,private fb:FormBuilder) {}
 
    ngOnInit(): void{
-
-    
     this.form = new FormGroup({
       name:new FormControl('',Validators.required),
       roll:new FormControl('',Validators.required),
-      subject:new FormArray([]),
-      marks: new FormArray([]),
-      
+      subject:new FormArray([
+        // new FormControl(null, [Validators.required]),
+        // new FormControl(null, [Validators.required]),
+        // new FormControl(null, [Validators.required])
+      ]),
+      marks: new FormArray([
+        // new FormControl(null, [Validators.required]),
+        // new FormControl(null, [Validators.required]),
+        // new FormControl(null, [Validators.required])
+      ]),
       
     })
   
-    this.editForm = new FormGroup({
+    this.editForm =this.fb.group({
         name:new FormControl('',Validators.required), 
         roll:new FormControl('',Validators.required),
         subject:new FormArray([]),
@@ -49,9 +50,11 @@ export class StudentComponent implements OnInit{
     })
 
     this.getStudnets()
-    this.getCountries()
+    this.getCountry()
      
   }
+
+
 
 
 
@@ -59,28 +62,29 @@ export class StudentComponent implements OnInit{
 getStudnets(){
   this.studentService.getStudent().subscribe((res) => {
     this.students = res
+    console.log(res)
   })
 }
 
-getCountries(){
-   this.countryservice.getCountry().subscribe((cres)=>{
-       this.countries = cres
-   })
+getCountry(){
+  this.countryservice.getCountry().subscribe((cres)=>{
+    this.countries = cres
+    console.log(cres)
+ })
 }
 
- onChangeCountry(countryId:String){
-   if(countryId){
-    this.countryservice.getState().subscribe((sres)=>{
+ChangeCountry(e:any){
+    this.countryservice.getState(e.target.value).subscribe((sres)=>{
       this.states = sres
+      console.log(sres)
    })
-   }
-    
-    
  }
 
- getCities(){
-   this.countryservice.getCity().subscribe((ceres)=>{
+ ChaneState(e:any){
+   
+   this.countryservice.getCity(e.target.value).subscribe((ceres)=>{
       this.cities = ceres
+      console.log(ceres)
    })
  }
 
@@ -139,29 +143,29 @@ submit(){
   this.studentService.getStudentById(idu).subscribe((data)=>{
   this.editStudentd = data
   })
+  this.setValue()
  }
 
 
- get eSubControls(){
-  return (<FormArray>this.editForm.get('subject')).controls
- 
-}
-get emarkControls(){
- return (<FormArray>this.editForm.get('marks')).controls
-}
 
- edditAadd(){
-  
-  var escontrol = new FormControl(null, [Validators.required]);
-  var emcontrol = new FormControl(null, [Validators.required]);
 
-  (<FormArray>this.editForm.get('subject')).push(escontrol);
-  (<FormArray>this.editForm.get('marks')).push(emcontrol)
-}
+//  edditAadd(){
+//   var escontrol = new FormControl(null, [Validators.required]);
+//   var emcontrol = new FormControl(null, [Validators.required]);
+
+//   (<FormArray>this.editForm.get('subject')).push(escontrol);
+//   (<FormArray>this.editForm.get('marks')).push(emcontrol)
+// }
 
 setValue() {
-  this.editForm.setValue({name:this.editStudentd.name , roll:this.editStudentd.roll, subject:this.editStudentd.subject.subject, marks:this.editStudentd.marks.mark });
+  this.editForm.patchValue({
+    name:this.editStudentd.name , 
+    roll:this.editStudentd.roll, 
+    subject:this.editStudentd.subject, 
+    marks:this.editStudentd.marks });
 }
+
+
 
 
  edit(){

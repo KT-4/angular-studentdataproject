@@ -30,7 +30,7 @@
                          Detials
                         </a></td>
                         <td ><a type="button" (click)="editStudent(student._id)" class="btn  btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal2" >
-                            Edit
+                          Edit
                         </a></td>
                         <td><a type="button"  class="btn  btn-sm btn-outline-danger" (click)="deleteStudent(student._id)">
                           Delete
@@ -60,10 +60,10 @@
          <table class="table table-striped" >
           <tbody>
              <tr>
-                  <td colspan="2"><strong>Name : </strong>{{ Onestudent.name}}</td>
+                  <td colspan="2"><strong>Name : </strong>{{ Onestudent?.name}}</td>
              </tr>
              <tr>
-              <td colspan="2"><strong>RollNo : </strong>{{ Onestudent.roll}}</td>
+              <td colspan="2"><strong>RollNo : </strong>{{ Onestudent?.roll}}</td>
              </tr>
              <tr>
                <td><strong>Subject</strong></td>
@@ -72,12 +72,12 @@
 
               <tr>
                 <td>
-                  <ul *ngFor="let sub of Onestudent.subject;">
+                  <ul *ngFor="let sub of Onestudent?.subject;">
                     <li>{{sub.subject}}</li>   
                   </ul>
                 </td>
                 <td>
-                  <ul  *ngFor="let mrk of Onestudent.marks">
+                  <ul  *ngFor="let mrk of Onestudent?.marks">
                     <li>{{mrk.mark}}</li>   
                   </ul>
                 </td>
@@ -122,23 +122,23 @@
         
         <div>
           <label>Select Country</label>
-          <select class="form-control" name="country" formControlName="country">
-             <option>Select Country</option>
-             <option *ngFor="let cot of countries;let i = index">{{cot.name}}</option>
+          <select class="form-control" (change)="ChangeCountry($event)" name="country" formControlName="country" >
+             <option selected>Select Country</option>
+             <option *ngFor="let country of countries;" [value]="country.id">{{country.name}}</option>
           </select>
        </div>
         <div>
           <label>Select State</label>
-          <select class="form-control" name="state" formControlName="state">
+          <select class="form-control" (change)="ChaneState($event)" name="state" formControlName="state">
              <option>Select State</option>
-             <option *ngFor="let state of states;let i = index">{{state.name}}</option>
+             <option *ngFor="let state of states" [value]="state.id">{{state.name}}</option>
           </select>
        </div>
         <div>
            <label>Select City</label>
            <select class="form-control" name="city" formControlName="city">
               <option>Select City</option>
-              <option *ngFor="let city of cities;let i = index">{{city.name}}</option>
+              <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
            </select>
         </div>
 
@@ -212,32 +212,32 @@
           <div class="col-md-12">
              <div>
                <label for="">Name:-</label>
-              <input name="name" formControlName="name" type="text" id="name" class="form-control" [(ngModel)]="editStudentd.name"/>
+              <input name="name" formControlName="name" type="text" id="name" class="form-control" />
              </div>
           
              <div>
                <label for="">RollNo:</label>
-              <input name="roll" formControlName="roll" type="text" id="roll" class="form-control" [(ngModel)]="editStudentd.roll"/>
+              <input name="roll" formControlName="roll" type="text" id="roll" class="form-control"/>
              </div>
         </div>
           
             <div>
-            <button type="button" (click)="edditAadd()" class="btn btn-sm btn-warning my-2 w-100">Edit</button>
+            <button type="button" class="btn btn-sm btn-warning my-2 w-100">Edit</button>
           </div>   
   
           <div class="row"> 
 
             <div class="col-md-6" formArrayName="subject" >
-              <div *ngFor="let data of eSubControls; let i = index">
+              <div *ngFor="let data of SubControls; let i = index">
                 <label for="">Subject</label>"
-                <input name="subject" [formControlName]="i" type="text" id="subject" class="form-control" [(ngModel)]="editStudentd.subject[i].subject"/>
+                <input name="subject" [formControlName]="i" type="text" id="subject" class="form-control" />
               </div>
             </div>
             
             <div class="col-md-6" formArrayName="marks">
-              <div  *ngFor="let data of emarkControls; let i = index">
+              <div  *ngFor="let data of markControls; let i = index">
                 <label for="">Marks</label>
-                <input name="marks" [formControlName]="i" type="number" id="marks" class="form-control" [(ngModel)]="editStudentd.marks[i].mark"/>
+                <input name="marks" [formControlName]="i" type="number" id="marks" class="form-control" />
               </div>
             </div>
   

@@ -7,8 +7,6 @@ import { AppComponent } from './app.component';
 import { StudentComponent } from './student/student.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import { SubjectComponent } from './subject/subject.component';
-import { ViewdataComponent } from './viewdata/viewdata.component';
 import { StudentService } from './services/student.service';
 
 
@@ -16,8 +14,6 @@ import { StudentService } from './services/student.service';
   declarations: [
     AppComponent,
     StudentComponent,
-    ViewdataComponent,
-    SubjectComponent,
     
   ],
   imports: [
