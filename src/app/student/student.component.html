@@ -6,7 +6,7 @@
                 <h1>Students</h1>
             </div>
             
-            <button type="button" (click)="students" class="btn  btn-sm btn-primary w-100"  data-bs-toggle="modal" data-bs-target="#exampleModal3">
+            <button type="button" (click)="addStudent()" class="btn  btn-sm btn-primary w-100"  data-bs-toggle="modal" data-bs-target="#exampleModal3">
                 Create New Student
             </button>
             
@@ -29,7 +29,7 @@
                         <td><a  type="button" (click)="viewStudent(student._id)" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                          Detials
                         </a></td>
-                        <td ><a type="button" (click)="editStudent(student._id)" class="btn  btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal2" >
+                        <td ><a type="button" (click)="editStudent(student._id)" class="btn  btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal3" >
                           Edit
                         </a></td>
                         <td><a type="button"  class="btn  btn-sm btn-outline-danger" (click)="deleteStudent(student._id)">
@@ -56,36 +56,61 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>  
+       
          <table class="table table-striped" >
           <tbody>
              <tr>
-                  <td colspan="2"><strong>Name : </strong>{{ Onestudent?.name}}</td>
+                  <td colspan="3"><strong>Name : </strong>{{ Onestudent?.name}}</td>
              </tr>
              <tr>
-              <td colspan="2"><strong>RollNo : </strong>{{ Onestudent?.roll}}</td>
+               <td colspan="3"><strong>RollNo : </strong>{{ Onestudent?.roll}}</td>
              </tr>
              <tr>
-               <td><strong>Subject</strong></td>
-               <td class="test-left"><strong>Marks</strong></td>
+              <td><strong>Country</strong></td>
+              <td><strong>State</strong></td>
+              <td><strong>City</strong></td>
+            </tr>
+            <tr>
+              <td>
+                <ul>
+                  <li>{{Onestudent?.country}}</li>   
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  <li>{{Onestudent?.state}}</li>   
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  <li>{{Onestudent?.city}}</li>   
+                </ul>
+              </td>
+            </tr>
+          
+             <tr>
+               <td colspan="2"><strong>Subject</strong></td>
+               <td colspan="1"><strong>Marks</strong></td>
+               
              </tr>
 
               <tr>
-                <td>
+                <td colspan="2">
                   <ul *ngFor="let sub of Onestudent?.subject;">
                     <li>{{sub.subject}}</li>   
                   </ul>
                 </td>
-                <td>
+                <td colspan="1">
                   <ul  *ngFor="let mrk of Onestudent?.marks">
                     <li>{{mrk.mark}}</li>   
                   </ul>
                 </td>
               </tr>
+              
       
           </tbody>
          </table>
-      </form>
+     
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -100,7 +125,6 @@
 
 
  <!-- Create New student  -->
-
 <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
  <div class="modal-dialog">
   <div class="modal-content">
@@ -110,7 +134,7 @@
     </div>
     <div class="modal-body">
        <div class="myForm">
-        <form [formGroup]="form">
+        <form [formGroup]="form" (ngSubmit)="submit()">
         <div class="col-md-12">
           <label for="">Name:-</label>
           <input name="name" formControlName="name" type="text" id="name" class="form-control"/>
@@ -122,31 +146,27 @@
         
         <div>
           <label>Select Country</label>
-          <select class="form-control" (change)="ChangeCountry($event)" name="country" formControlName="country" >
-             <option selected>Select Country</option>
+          <select class="form-control" formControlName="country" (change)="ChangeCountry($any($event.target).value)"  >
+             <option selected [ngValue]="null">Select Country</option>
              <option *ngFor="let country of countries;" [value]="country.id">{{country.name}}</option>
           </select>
        </div>
         <div>
           <label>Select State</label>
-          <select class="form-control" (change)="ChaneState($event)" name="state" formControlName="state">
-             <option>Select State</option>
+          <select class="form-control" formControlName="state" (change)="ChaneState($any($event.target).value)"  >
+             <option [ngValue]="null">Select State</option>
              <option *ngFor="let state of states" [value]="state.id">{{state.name}}</option>
           </select>
        </div>
         <div>
            <label>Select City</label>
-           <select class="form-control" name="city" formControlName="city">
-              <option>Select City</option>
+           <select class="form-control" formControlName="city">
+              <option [ngValue]="null">Select City</option>
               <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
            </select>
         </div>
-
-  
-     
-        
         <div>
-          <button type="button" (click)="onAddStuAndMark()" class="btn btn-sm btn-warning my-2 w-100">Add</button>
+          <a type="button" (click)="onAddStuAndMark()" class="btn btn-sm btn-warning my-2 w-100">Add</a>
         </div>
 
         <div class="row"> 
@@ -167,97 +187,20 @@
 
         </div>
        
+        <hr>
+        <button *ngIf="createButton" type="submit" class="btn btn-primary">Create</button>
+        <button *ngIf="updateButton" type="submit" class="btn btn-primary">Update</button>        
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         
        </form>
        </div>
 
-    </div>
-    <div class="modal-footer">
-      <button type="submit" class="btn btn-primary" (click)="submit()">Submit</button>
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-    
     </div>
   </div>
 </div>
 </div> 
 
 
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-<!-- <p>edit works!</p> -->
-
- <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel2">Update Student</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-         <div class="myForm">
-          <form [formGroup]="editForm">
-          <div class="col-md-12">
-             <div>
-               <label for="">Name:-</label>
-              <input name="name" formControlName="name" type="text" id="name" class="form-control" />
-             </div>
-          
-             <div>
-               <label for="">RollNo:</label>
-              <input name="roll" formControlName="roll" type="text" id="roll" class="form-control"/>
-             </div>
-        </div>
-          
-            <div>
-            <button type="button" class="btn btn-sm btn-warning my-2 w-100">Edit</button>
-          </div>   
-  
-          <div class="row"> 
-
-            <div class="col-md-6" formArrayName="subject" >
-              <div *ngFor="let data of SubControls; let i = index">
-                <label for="">Subject</label>"
-                <input name="subject" [formControlName]="i" type="text" id="subject" class="form-control" />
-              </div>
-            </div>
-            
-            <div class="col-md-6" formArrayName="marks">
-              <div  *ngFor="let data of markControls; let i = index">
-                <label for="">Marks</label>
-                <input name="marks" [formControlName]="i" type="number" id="marks" class="form-control" />
-              </div>
-            </div>
-  
-            
-          </div>
-         
-          
-         </form>
-         </div>
-  
-      </div>
-      <div class="modal-footer">
-        <button type="edit" class="btn btn-primary" (click)="edit()">Update</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      
-      </div>
-    </div>
-  </div>
-  </div>  
-  
 
 
 

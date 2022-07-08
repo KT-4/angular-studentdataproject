@@ -1,7 +1,7 @@
+
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { CountrystateService } from '../services/countrystate.service';
-// import { Country, State, City }  from 'country-state-city';
 import { StudentService } from '../services/student.service';
 
 @Component({
@@ -15,11 +15,17 @@ export class StudentComponent implements OnInit{
   public Addstudent:any
   public editStudentd:any
   public id:any
-  form!:FormGroup
+  createButton = false
+  updateButton = false
+  form!:FormGroup;
+
   editForm!:FormGroup
-   countries:any;
-   states:any;
-   cities:any;
+  countries:any;
+  states:any;
+  cities:any;
+  myCountry:any
+  myState:any
+  myCity:any
 
   constructor(private studentService:StudentService,private countryservice:CountrystateService,private fb:FormBuilder) {}
 
@@ -27,74 +33,73 @@ export class StudentComponent implements OnInit{
     this.form = new FormGroup({
       name:new FormControl('',Validators.required),
       roll:new FormControl('',Validators.required),
+      country:new FormControl('',Validators.required),
+      state:new FormControl('',Validators.required),
+      city:new FormControl('',Validators.required),
       subject:new FormArray([
-        // new FormControl(null, [Validators.required]),
-        // new FormControl(null, [Validators.required]),
-        // new FormControl(null, [Validators.required])
+        new FormControl(null, [Validators.required]),
       ]),
       marks: new FormArray([
-        // new FormControl(null, [Validators.required]),
-        // new FormControl(null, [Validators.required]),
-        // new FormControl(null, [Validators.required])
+        new FormControl(null, [Validators.required]),
       ]),
-      
     })
-  
-    this.editForm =this.fb.group({
-        name:new FormControl('',Validators.required), 
-        roll:new FormControl('',Validators.required),
-        subject:new FormArray([]),
-        marks: new FormArray([]),
-        country:new FormControl(''),
-        state:new FormControl('')
-    })
-
     this.getStudnets()
-    this.getCountry()
-     
+    this.getCountry() 
   }
 
+ 
 
-
-
-
-// get all student
+//<--------------------- Get all student ---------------------->
 getStudnets(){
   this.studentService.getStudent().subscribe((res) => {
     this.students = res
-    console.log(res)
+    
   })
 }
+
+//<----------------- Get All Country ------------------------>
+
 
 getCountry(){
   this.countryservice.getCountry().subscribe((cres)=>{
     this.countries = cres
-    console.log(cres)
+ 
  })
 }
 
-ChangeCountry(e:any){
-    this.countryservice.getState(e.target.value).subscribe((sres)=>{
-      this.states = sres
-      console.log(sres)
-   })
- }
 
- ChaneState(e:any){
-   
-   this.countryservice.getCity(e.target.value).subscribe((ceres)=>{
-      this.cities = ceres
-      console.log(ceres)
-   })
- }
 
-// view Student
-viewStudent(ids:any){
-  this.studentService.getStudentById(ids).subscribe((data)=>{
-    this.Onestudent = data
-  })
+//<--------------- view Student ------------->
+
+async viewStudent(id:any){
+  this.Onestudent = await this.studentService.getStudentById(id).toPromise()
+    console.log(this.Onestudent)
+     this.myCountry = await this.countryservice.getCountry().toPromise()
+     this.myState = await this.countryservice.getState(this.Onestudent.country).toPromise()
+     this.myCity = await this.countryservice.getCity(this.Onestudent.state).toPromise()
+
+     this.myCountry = this.myCountry.filter((c:any)=>{
+       return c.id == this.Onestudent.country
+     })
+
+     
+     this.myState = this.myState.filter((s:any)=>{
+      return s.id == this.Onestudent.state
+    })
+    console.log(this.myState)
+    
+    this.myCity = this.myCity.filter((c:any)=>{
+      return c.id == this.Onestudent.city
+    })
+    
+
+    this.Onestudent.country = this.myCountry[0].name;
+    this.Onestudent.state = this.myState[0].name;
+    this.Onestudent.city = this.myCity[0].name;
 }
 
+
+//<-------------------------- Delete Student ----------------------->
 
 deleteStudent(idDelete:any){
   this.studentService.deleteStudentById(idDelete).subscribe((res)=>{
@@ -102,18 +107,9 @@ deleteStudent(idDelete:any){
   })
 }
 
+//<--------------  Push Form Control ------------------>
 
-onAddStuAndMark(){
-   var scontrol = new FormControl(null, [Validators.required]);
-   var mcontrol = new FormControl(null, [Validators.required]);
-  
-   (<FormArray>this.form.get('subject')).push(scontrol);
-   (<FormArray>this.form.get('marks')).push(mcontrol)
- }
-
-
-
- get SubControls(){
+get SubControls(){
 
    return (<FormArray>this.form.get('subject')).controls
   
@@ -123,56 +119,116 @@ get markControls(){
   return (<FormArray>this.form.get('marks')).controls
 }
 
+onAddStuAndMark(){
+  var scontrol = new FormControl(null, [Validators.required]);
+  var mcontrol = new FormControl(null, [Validators.required]);
+ 
+  (<FormArray>this.form.get('subject')).push(scontrol);
+  (<FormArray>this.form.get('marks')).push(mcontrol)
+}
 
-
-
-
-submit(){
-  this.studentService.createNewStudent(this.form.value).subscribe(res=>{
-  })
-  this.getStudnets()
-
-  alert('Student Added')
+addStudent(){
   this.form.reset()
+  this.createButton = true
+  this.updateButton = false
+  this.states = null
+  this.cities =null
 }
 
 // edit sutdent
-
- editStudent(idu:any){
+ async editStudent(idu:any){
+  this.form.reset()
+  this.editStudentd = await this.studentService.getStudentById(idu).toPromise()
+  this.createButton = false
+  this.updateButton = true
   this.id = idu
-  this.studentService.getStudentById(idu).subscribe((data)=>{
-  this.editStudentd = data
+  
+  let mar:any 
+  let sub:any
+  this.close()
+
+  if(this.editStudentd.country){
+    this.ChangeCountry(this.editStudentd.country)
+  }
+  if(this.editStudentd.state){
+    this.ChaneState(this.editStudentd.state)
+  }
+
+    sub = this.editStudentd.subject.map((s:any)=>s.subject)
+    
+    mar = this.editStudentd.marks.map((e:any)=>e.mark)
+    
+
+    for(let i = 0; i< sub.length; i++){
+      this.onAddStuAndMark()
+    }
+
+
+    
+  
+  this.form.patchValue({
+    name:this.editStudentd.name , 
+    roll:this.editStudentd.roll,
+    country:this.editStudentd.country,
+    state:this.editStudentd.state,
+    city:this.editStudentd.city,
+    subject: sub,
+    marks: mar
   })
-  this.setValue()
+
+  
  }
 
+//<---------------------  if select state using country ----------------->
 
+ChangeCountry(cid:any){
 
-
-//  edditAadd(){
-//   var escontrol = new FormControl(null, [Validators.required]);
-//   var emcontrol = new FormControl(null, [Validators.required]);
-
-//   (<FormArray>this.editForm.get('subject')).push(escontrol);
-//   (<FormArray>this.editForm.get('marks')).push(emcontrol)
-// }
-
-setValue() {
-  this.editForm.patchValue({
-    name:this.editStudentd.name , 
-    roll:this.editStudentd.roll, 
-    subject:this.editStudentd.subject, 
-    marks:this.editStudentd.marks });
+  if(cid){
+    this.countryservice.getState(cid).subscribe((sres)=>{
+      this.states = null
+      this.states = sres
+   })
+  }else{
+    this.states = null
+    this.cities = null
+  }
 }
 
+//<---------------------  if select city using country ----------------->
 
 
-
- edit(){
-  this.studentService.updateStudentById(this.id, this.editForm.value).subscribe((res)=>{
-    console.log(res)
-    alert(`update successfully`)
+ChaneState(sid:any){
+ if(sid){
+  this.countryservice.getCity(sid).subscribe((ceres)=>{
+    this.cities = null
+    this.cities = ceres
+ })
+ }else{
+  this.cities = null
+ }
+}
+ close(){
+  this.SubControls.splice(0, this.SubControls.length)
+  this.markControls.splice(0, this.markControls.length)
+ }
+ submit(){
+ if(this.createButton){
+  this.studentService.createNewStudent(this.form.value).subscribe(res=>{
+    this.getStudnets()
+  })
+  alert('Student Added')
+  this.form.reset()
+  this.states = null
+  this.cities = null
+ }
+ if(this.updateButton){
+  this.studentService.updateStudentById(this.id,this.form.value).subscribe(res=>{
+    this.getStudnets()
+    alert('student update succcessfully')
   })
 }
-   
+}
+
+
+
 }
