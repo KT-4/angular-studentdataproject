@@ -166,6 +166,13 @@
            </select>
         </div>
         <div>
+           <label for="file">Upload File</label>
+           <input formControlName="file" id="file" type="file" class="form-control" (change)="onFileChange($event)">
+
+        </div>
+        <button class="btn btn-primary" type="submitFile()">File Upload</button>
+
+        <div>
           <a type="button" (click)="onAddStuAndMark()" class="btn btn-sm btn-warning my-2 w-100">Add</a>
         </div>
 

@@ -1,6 +1,8 @@
 
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { environment } from 'src/environments/environment';
 import { CountrystateService } from '../services/countrystate.service';
 import { StudentService } from '../services/student.service';
 
@@ -18,7 +20,7 @@ export class StudentComponent implements OnInit{
   createButton = false
   updateButton = false
   form!:FormGroup;
-
+  public uploadFiles:any
   editForm!:FormGroup
   countries:any;
   states:any;
@@ -27,7 +29,7 @@ export class StudentComponent implements OnInit{
   myState:any
   myCity:any
 
-  constructor(private studentService:StudentService,private countryservice:CountrystateService,private fb:FormBuilder) {}
+  constructor(private studentService:StudentService,private countryservice:CountrystateService,private fb:FormBuilder,private http:HttpClient) {}
 
    ngOnInit(): void{
     this.form = new FormGroup({
@@ -36,6 +38,8 @@ export class StudentComponent implements OnInit{
       country:new FormControl('',Validators.required),
       state:new FormControl('',Validators.required),
       city:new FormControl('',Validators.required),
+      file:new FormControl('',[Validators.required]),
+      fileSource:new FormControl('',[Validators.required]),
       subject:new FormArray([
         new FormControl(null, [Validators.required]),
       ]),
@@ -47,7 +51,26 @@ export class StudentComponent implements OnInit{
     this.getCountry() 
   }
 
+ //File Upload
  
+ onFileChange(event:any){
+  
+   if(event.taget.files.length > 0){
+     const file = event.target.files[0]
+     console.log(file)
+   }
+}
+
+
+
+ submitFile(){
+ 
+    const formData = new FormData();
+    formData.append('file',this.form.get('fileSource')?.value);
+
+    
+ }
+
 
 //<--------------------- Get all student ---------------------->
 getStudnets(){
