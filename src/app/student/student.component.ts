@@ -39,7 +39,7 @@ export class StudentComponent implements OnInit{
       state:new FormControl('',Validators.required),
       city:new FormControl('',Validators.required),
       file:new FormControl('',[Validators.required]),
-      fileSource:new FormControl('',[Validators.required]),
+      
       subject:new FormArray([
         new FormControl(null, [Validators.required]),
       ]),
@@ -54,22 +54,22 @@ export class StudentComponent implements OnInit{
  //File Upload
  
  onFileChange(event:any){
-  
-   if(event.taget.files.length > 0){
-     const file = event.target.files[0]
-     console.log(file)
-   }
+  const file = event.target.files[0]
+  console.log(file)
+
+ const formData = new FormData
+ formData.append('file',file)
+
+  this.http.post(`${environment.apiUrl}/file`,formData).subscribe((d)=>{
+    console.log(d)
+  },error=>console.log(error))
 }
 
 
 
- submitFile(){
- 
-    const formData = new FormData();
-    formData.append('file',this.form.get('fileSource')?.value);
 
-    
- }
+//  submitFile(){   
+//  }
 
 
 //<--------------------- Get all student ---------------------->
@@ -238,6 +238,8 @@ ChaneState(sid:any){
  if(this.createButton){
   this.studentService.createNewStudent(this.form.value).subscribe(res=>{
     this.getStudnets()
+    const formData = new FormData();
+    formData.append('file',this.form.get('fileSource')?.value);
   })
   alert('Student Added')
   this.form.reset()

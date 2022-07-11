@@ -165,12 +165,11 @@
               <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
            </select>
         </div>
-        <div>
+           <div>
            <label for="file">Upload File</label>
            <input formControlName="file" id="file" type="file" class="form-control" (change)="onFileChange($event)">
-
-        </div>
-        <button class="btn btn-primary" type="submitFile()">File Upload</button>
+            </div> 
+        <!-- <button class="btn btn-primary" type="submitFile()">File Upload</button> -->
 
         <div>
           <a type="button" (click)="onAddStuAndMark()" class="btn btn-sm btn-warning my-2 w-100">Add</a>
@@ -197,12 +196,12 @@
         <hr>
         <button *ngIf="createButton" type="submit" class="btn btn-primary">Create</button>
         <button *ngIf="updateButton" type="submit" class="btn btn-primary">Update</button>        
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> 
         
        </form>
        </div>
 
-    </div>
+    </div>  
   </div>
 </div>
 </div> 

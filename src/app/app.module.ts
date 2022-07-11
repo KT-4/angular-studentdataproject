@@ -8,12 +8,14 @@ import { StudentComponent } from './student/student.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { StudentService } from './services/student.service';
+import { FileComponent } from './file/file.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     StudentComponent,
+    FileComponent,
     
   ],
   imports: [
