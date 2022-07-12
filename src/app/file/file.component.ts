@@ -14,32 +14,21 @@ export class FileComponent implements OnInit {
   ngOnInit(): void {
 
   }
-  onFileChange(event:any){
-    const file = event.target.files[0]
-    console.log(file)
+  // onFileChange(event:any){
+  //   const file = event.target.files[0]
+  //   console.log(file)
 
-   const formData = new FormData
-   formData.append('file',file)
+  //  const formData = new FormData
+  //  formData.append('file',file)
 
-    this.http.post(`${environment.apiUrl}/file`,formData).subscribe((d)=>{
-      console.log(d)
-    },error=>console.log(error))
-  }
-   
-  // onFileChangemultipule(event:any){
-  //   const files:FileList= event.target.files
-  //   const formData = new FormData()
-  //   console.log(files)
-
-  //   for (let index = 0; index < files.length; index++) {
-  //     const element = files[index];
-  //      formData.append('file',element)
-  //   }
-
-  //   this.http.post('http://localhost:3000/multifiles',formData).subscribe((d)=>{
+  //   this.http.post(`${environment.apiUrl}/file`,formData).subscribe((d)=>{
   //     console.log(d)
   //   },error=>console.log(error))
   // }
+   
+  onFileChangemultipule(event:any){
+    
+  }
     
   
 }

@@ -66,6 +66,11 @@
                <td colspan="3"><strong>RollNo : </strong>{{ Onestudent?.roll}}</td>
              </tr>
              <tr>
+                <td *ngFor="let file of Onestudent?.file">
+                  <img class="img-fluid" [src]="file"  alt="">
+               </td>
+             </tr>
+             <tr>
               <td><strong>Country</strong></td>
               <td><strong>State</strong></td>
               <td><strong>City</strong></td>
@@ -167,7 +172,7 @@
         </div>
            <div>
            <label for="file">Upload File</label>
-           <input formControlName="file" id="file" type="file" class="form-control" (change)="onFileChange($event)">
+           <input  type="file" class="form-control" (change)="onFileChange($event)" multiple>
             </div> 
         <!-- <button class="btn btn-primary" type="submitFile()">File Upload</button> -->
 
